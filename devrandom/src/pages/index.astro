@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
 
 const pageTitle = "devrandom";
 const description = "Welcome to devrandom";
@@ -9,8 +9,337 @@ const ogimage = {
 };
 ---
 
-<Layout pageTitle={pageTitle} description={description} ogimage={ogimage}>
-  <main class="bg-white min-h-screen">
-    <!-- Clean minimal content will go here -->
-  </main>
-</Layout>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" />
+    <meta name="theme-color" content="#ff0080"/>
+    <!-- JetBrains Mono font for code-style tagline -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" />
+  </head>
+  <body>
+    <main class="synthwave-bg min-h-screen flex flex-col gap-6 items-center justify-center text-center px-4 relative">
+      <canvas id="agentsCanvas"></canvas>
+      <div class="logo-container">
+        <img src="/devrandom_logo.svg" alt="devrandom" class="logo" />
+      </div>
+      <p class="tagline" aria-label="Project description">
+        🤖🚀 Lightning-fast AI assistants you control locally. Link them together for even more brain-power. Built from the ground-up in Rust for blazingly quick performance and iron-clad security. 🔒
+      </p>
+      <div class="contact-links" aria-label="Links">
+        <a href="https://github.com/devrandom-labs" target="_blank" rel="noopener" class="contact-link">😺 GitHub</a>
+        <a href="mailto:joel@devrandom.co" class="contact-link">✉️ Email</a>
+        <a href="https://www.linkedin.com/in/joeldsouzax" target="_blank" rel="noopener" class="contact-link">🔗 LinkedIn</a>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  .synthwave-bg {
+    background: 
+      /* Even stronger pixelated dithering with multi-color synthwave palette */
+      radial-gradient(circle 1px at 1px 1px, rgba(255, 0, 128, 0.12) 0%, transparent 50%),
+      radial-gradient(circle 1px at 3px 5px,   rgba(139, 0, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle 1px at 7px 2px,   rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle 1px at 5px 8px,   rgba(0, 200, 255, 0.07) 0%, transparent 50%),
+      radial-gradient(circle 1px at 2px 6px,   rgba(255, 100, 0, 0.07) 0%, transparent 50%),
+      radial-gradient(circle 1px at 8px 4px,   rgba(255, 255, 0, 0.06) 0%, transparent 50%),
+      radial-gradient(circle 1px at 4px 1px,   rgba(0, 255, 128, 0.07) 0%, transparent 50%),
+      radial-gradient(circle 1px at 6px 7px,   rgba(255, 0, 255, 0.06) 0%, transparent 50%),
+      /* multiple low-opacity synthwave spots across viewport */
+      radial-gradient(circle 220px at 12% 18%, rgba(255, 0, 128, 0.06) 0%, transparent 72%),
+      radial-gradient(circle 240px at 28% 65%, rgba(139, 0, 255, 0.05) 0%, transparent 75%),
+      radial-gradient(circle 200px at 42% 30%, rgba(0, 255, 255, 0.045) 0%, transparent 74%),
+      radial-gradient(circle 260px at 58% 78%, rgba(0, 200, 255, 0.04) 0%, transparent 78%),
+      radial-gradient(circle 230px at 73% 40%, rgba(255, 100, 0, 0.045) 0%, transparent 76%),
+      radial-gradient(circle 210px at 85% 15%, rgba(255, 255, 0, 0.04) 0%, transparent 80%),
+      radial-gradient(circle 250px at 90% 70%, rgba(0, 255, 128, 0.05) 0%, transparent 78%),
+      radial-gradient(circle 190px at 60% 10%, rgba(255, 0, 255, 0.05) 0%, transparent 75%),
+      /* faint vertical noise lines for extra dither */
+      repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0) 0px,
+        rgba(255,255,255,0) 6px,
+        rgba(0,0,0,0.03) 6px,
+        rgba(0,0,0,0.03) 7px);
+    background-size: 
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      100% 100%;
+    background-position:
+      0 0,
+      2px 3px,
+      5px 1px,
+      3px 6px,
+      1px 4px,
+      6px 2px,
+      4px 0px,
+      7px 5px,
+      0 0;
+    animation: pixel-drift 12s ease-in-out infinite alternate;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes pixel-drift {
+    0% {
+      background-position:
+        0 0,
+        2px 3px,
+        5px 1px,
+        3px 6px,
+        1px 4px,
+        6px 2px,
+        4px 0px,
+        7px 5px,
+        0 0;
+    }
+    100% {
+      background-position:
+        1px 1px,
+        3px 4px,
+        6px 2px,
+        4px 7px,
+        2px 5px,
+        7px 3px,
+        5px 1px,
+        8px 6px,
+        0 0;
+    }
+  }
+
+  .logo-container {
+    /* animation disabled */
+  }
+
+  .logo {
+    width: 300px;
+    height: auto;
+    filter: 
+      drop-shadow(0 0 8px rgba(255, 0, 128, 0.10)) 
+      drop-shadow(0 0 16px rgba(139, 0, 255, 0.07)) 
+      drop-shadow(0 0 24px rgba(255, 0, 128, 0.05));
+    /* animation disabled */
+  }
+
+  @media (max-width: 768px) {
+    .logo {
+      width: 250px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo {
+      width: 200px;
+    }
+  }
+
+  /* floating blurred colour blobs */
+  .synthwave-bg::before,
+  .synthwave-bg::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: -2;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(255, 0, 128, 0.09) 0%, transparent 60%),
+      radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.075) 0%, transparent 60%),
+      radial-gradient(circle at 60% 20%, rgba(139, 0, 255, 0.085) 0%, transparent 60%),
+      radial-gradient(circle at 30% 80%, rgba(0, 255, 128, 0.07) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 0, 0.065) 0%, transparent 60%);
+    filter: blur(80px) saturate(90%);
+    animation: blobMove 25s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .synthwave-bg::after {
+    animation-direction: alternate-reverse;
+    animation-duration: 35s;
+  }
+
+  @keyframes blobMove {
+    0%   {transform: translate3d(-10%, -5%, 0) scale(1);} 
+    33%  {transform: translate3d(5%, 8%, 0)   scale(1.15);} 
+    66%  {transform: translate3d(-4%, 12%, 0)  scale(0.9);} 
+    100% {transform: translate3d(8%, -6%, 0)  scale(1.1);} 
+  }
+
+  /* tagline styles */
+  .tagline {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.015em;
+    color: rgba(0, 0, 0, 0.75);
+    max-width: 60ch;
+    line-height: 1.4;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 480px) {
+    .tagline {
+      font-size: 0.9rem;
+      max-width: 32ch;
+    }
+  }
+
+  /* contact links */
+  .contact-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+  }
+
+  .contact-link {
+    color: rgba(0, 0, 0, 0.75);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .contact-link:hover {
+    color: rgba(0, 0, 0, 0.9);
+    text-decoration: underline;
+  }
+
+  /* three.js canvas */
+  #agentsCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* sit above background, below content */
+    pointer-events: none;
+  }
+</style>
+
+<!-- Three.js floating agent network -->
+<script type="module">
+  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js";
+
+  const canvas = document.getElementById("agentsCanvas");
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(60, 2, 0.1, 100);
+  camera.position.z = 5;
+
+  const colors = [0xff0080, 0x8b00ff, 0x00ffff, 0x00c8ff, 0xff6400, 0xffff00, 0x00ff80];
+  const blobs = [];
+  const BLOB_COUNT = 14;
+
+  function makeSoftTexture(hex) {
+    const size = 128;
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const ctx = c.getContext("2d");
+    const grd = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    const rgba = `rgba(${(hex>>16)&255}, ${(hex>>8)&255}, ${hex&255},`;
+    grd.addColorStop(0, `${rgba}0.25)`);
+    grd.addColorStop(1, `${rgba}0)`);
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, size, size);
+    const texture = new THREE.CanvasTexture(c);
+    return texture;
+  }
+
+  const softTextures = colors.map(makeSoftTexture);
+
+  function createBlob(i) {
+    const material = new THREE.SpriteMaterial({
+      map: softTextures[i % softTextures.length],
+      depthWrite: false,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+    });
+    const sprite = new THREE.Sprite(material);
+    const scale = 0.8 + Math.random() * 0.8;
+    sprite.scale.set(scale, scale, 1);
+    sprite.position.set((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 2);
+    sprite.userData.velocity = new THREE.Vector3((Math.random() - 0.5) * 0.01, (Math.random() - 0.5) * 0.01, 0);
+    scene.add(sprite);
+    blobs.push(sprite);
+  }
+
+  for (let i = 0; i < BLOB_COUNT; i++) createBlob(i);
+
+  // line pool
+  const maxConnections = BLOB_COUNT * BLOB_COUNT;
+  const positions = new Float32Array(maxConnections * 3);
+  const lineGeometry = new THREE.BufferGeometry();
+  lineGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.08 });
+  const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial);
+  scene.add(lineSegments);
+
+  function resizeRenderer() {
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    if (canvas.width !== width || canvas.height !== height) {
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+  }
+
+  window.addEventListener("resize", resizeRenderer);
+  resizeRenderer();
+
+  function animate() {
+    resizeRenderer();
+
+    let ptr = 0;
+    for (let i = 0; i < BLOB_COUNT; i++) {
+      const a = blobs[i];
+      a.position.add(a.userData.velocity);
+      ["x", "y", "z"].forEach((axis) => {
+        const limit = axis === "z" ? 2 : axis === "y" ? 3 : 4;
+        if (a.position[axis] > limit || a.position[axis] < -limit) a.userData.velocity[axis] *= -1;
+      });
+
+      for (let j = i + 1; j < BLOB_COUNT; j++) {
+        const b = blobs[j];
+        const dist = a.position.distanceTo(b.position);
+        if (dist < 2) {
+          positions[ptr++] = a.position.x;
+          positions[ptr++] = a.position.y;
+          positions[ptr++] = a.position.z;
+          positions[ptr++] = b.position.x;
+          positions[ptr++] = b.position.y;
+          positions[ptr++] = b.position.z;
+        }
+      }
+    }
+
+    lineGeometry.setDrawRange(0, ptr / 3);
+    lineGeometry.attributes.position.needsUpdate = true;
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
