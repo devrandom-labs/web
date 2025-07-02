@@ -15,7 +15,10 @@ const ogimage = {
     <meta name="viewport" content="width=device-width" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" />
+    <!-- SVG favicon for modern browsers -->
+    <link rel="icon" type="image/svg+xml" href="/devrandom_logo.svg" />
+    <!-- PNG fallback favicon -->
+    <link rel="alternate icon" href="/favicon-32x32.png" sizes="32x32" />
     <meta name="theme-color" content="#ff0080"/>
     <!-- JetBrains Mono font for code-style tagline -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" />
