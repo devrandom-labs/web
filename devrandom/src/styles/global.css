@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import 'tailwindcss';
+
+@theme {
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --font-opensans: 'Open Sans', sans-serif;
+  --color-blacktext: #171717;
+}
+
+::selection {
+	@apply text-white bg-gray-500;
+}
+
+*::-webkit-scrollbar-thumb{
+	border-radius: 20px;
+}
+
+*{
+	scrollbar-color: #666 #f0f0f0;
+	scrollbar-width: thin;
+	box-sizing: border-box;
+}
+
+/* Navigation bar styles */
+.hamburger {
+	cursor: pointer;
+}
+
+.nav-links {
+	display: none;
+}
+
+@media screen and (min-width: 768px) {
+	.nav-links {
+		display: flex;
+	}
+
+	.hamburger {
+		display: none;
+	}
+}

@@ -1,0 +1,114 @@
+---
+import Project from "./Project.astro";
+import Heading from "../ui/Heading.astro";
+import { Icon } from "astro-icon/components";
+
+let allPosts = [];
+try {
+  allPosts = await Astro.glob("../../pages/portfolio/projects/*.md");
+} catch (error) {
+  // No project files found, use empty array
+  allPosts = [];
+}
+
+// Sort by descending date (most recent first)
+allPosts.sort(
+  (a, b) =>
+    new Date(b.frontmatter.pubDate).getTime() -
+    new Date(a.frontmatter.pubDate).getTime(),
+);
+---
+
+<section
+  class="bg-linear-to-t dark:from-[#0a0a0f] from-white from-50% to-transparent to-100% scroll-m-16 relative pt-8 pb-32 max-2xl:px-8 max-md:pt-4"
+  id="projects"
+>
+  <div class="mx-auto max-w-7xl py-8">
+    <div class="flex gap-4 items-center justify-center text-center">
+      <Icon class="text-3xl dark:text-white text-blacktext" name="code" />
+      <Heading text="Projects" textGradient="Completed" level={2} />
+    </div>
+
+    <p
+      class="z-2 text-center mx-auto text-lg max-xl:text-base max-w-2xl dark:text-gray-200 text-blacktext my-6 leading-6 font-medium"
+    >
+      I love <b
+        class="bg-linear-to-r from-electric-purple-500 to-neon-pink-500 dark:from-electric-purple-300 dark:to-neon-pink-200 text-transparent bg-clip-text"
+        >turning ideas into real projects.</b
+      >
+      <br /> Here I show you some of the <b
+        class="bg-linear-to-r from-electric-purple-500 to-neon-pink-500 dark:from-electric-purple-300 dark:to-neon-pink-200 text-transparent bg-clip-text"
+        >developments</b
+      > I've worked on, applying technology, design, and lots of creativity.
+      <b
+        class="bg-linear-to-r from-electric-purple-500 to-neon-pink-500 dark:from-electric-purple-300 dark:to-neon-pink-200 text-transparent bg-clip-text"
+        >Check them out!</b
+      >
+    </p>
+    <slot />
+  </div>
+
+  <div
+    id="containerProjects"
+    class="mx-auto max-w-7xl grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-5 p-2 py-4 max-h-[150vh] overflow-hidden transition-[max-height] duration-500 ease-in-out"
+  >
+    {allPosts.length > 0 ? (
+      allPosts.map((post) => (
+        <Project
+          url={post.url}
+          title={post.frontmatter.title}
+          description={post.frontmatter.description}
+          date={post.frontmatter.pubDate}
+          languages={post.frontmatter.languages}
+          image={post.frontmatter.image}
+        />
+      ))
+    ) : (
+      <div class="col-span-full text-center py-12">
+        <div class="bg-linear-to-br from-electric-purple-100 to-neon-pink-100 dark:from-neon-pink-900 dark:to-neon-pink-950 rounded-2xl p-8 border border-neon-pink-200 dark:border-neon-pink-800">
+          <Icon class="text-6xl text-neon-pink-500 mx-auto mb-4" name="code" />
+          <h3 class="text-2xl font-bold text-blacktext dark:text-white mb-4">
+            <span class="bg-linear-to-r from-electric-purple-500 to-neon-pink-500 bg-clip-text text-transparent">
+              Coming Soon!
+            </span>
+          </h3>
+          <p class="text-lg text-blacktext dark:text-gray-200">
+            Projects are being prepared with the new synthwave neon theme. 
+            <br />Stay tuned for some amazing developments! 🚀
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
+
+  {allPosts.length > 0 && (
+    <div
+      id="moreProjects"
+      class="absolute bottom-0 left-0 w-full flex justify-center text-center bg-linear-to-t from-[#FBFEFD] dark:from-[#0a0a0f] from-55% to-transparent to-100% pb-30 pt-52"
+    >
+      <button
+        class="absolute font-bold cursor-pointer text-neon-pink-400 dark:text-neon-pink-100 hover:text-neon-pink-500 dark:hover:text-neon-pink-300 transition-all"
+      >
+        View More Projects...
+      </button>
+    </div>
+  )}
+</section>
+
+<script>
+  document.querySelector("#moreProjects")?.addEventListener("click", () => {
+    const container = document.querySelector("#containerProjects");
+    const moreProjectsBtn = document.querySelector("#moreProjects");
+
+    if (container && moreProjectsBtn) {
+      // Expand container to show all projects
+      container.classList.remove("h-[150vh]");
+      container.classList.remove("h-auto");
+      // Hide the "View More" button after animation completes
+      moreProjectsBtn.classList.add("hidden");
+      setTimeout(() => {
+        moreProjectsBtn.classList.add("hidden");
+      }, 500);
+    }
+  });
+</script>

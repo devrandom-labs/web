@@ -1,0 +1,22 @@
+{
+  "profileImage": "/images/devrandom.webp",
+  "profileAlt": "devrandom profile",
+  "profileLink": "/",
+  "profileTitle": "Developer",
+  "profileName": "joel",
+  "github": "https://github.com/devrandom-labs",
+  "githubText": "Check out the code",
+  "portfolioImage": "/images/portfolio.webp",
+  "email": "joel@devrandom.co",
+  "alias": "joel",
+  "contactSectionTitle": "Get in touch",
+  "contactSectionSubtitle": "Let's connect.",
+  "contactSectionButtonText": "Contact",
+  "contactSectionButtonIcon": "paperplane",
+  "techsTitle": "TECH",
+  "instagramIconName": "instagram",
+  "youtubeIconName": "youtube",
+  "githubIconName": "github",
+  "linkedinIconName": "linkedin",
+  "emailIconName": "envelope"
+}

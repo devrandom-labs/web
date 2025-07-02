@@ -1,0 +1,45 @@
+---
+import Social from "../ui/Social.astro";
+import { Icon } from "astro-icon/components";
+import { AstroError } from "astro/errors";
+import { getCollection} from "astro:content";
+
+const [staticData] = await getCollection('staticData');
+
+if (!staticData) {
+  throw new AstroError("JSON data not found");
+}
+---
+
+<footer
+  class="relative bottom-0 w-full px-4 py-8 font-medium text-blacktext bg-white border-t border-gray-200 max-lg:mt-3"
+  role="contentinfo"
+  aria-label="Site footer"
+>
+  <nav
+    class="mx-auto flex max-w-7xl flex-row items-center justify-between gap-4 text-xl max-xl:px-6 max-sm:flex-col"
+    aria-label="Footer navigation"
+  >
+    <div class="h-6 cursor-pointer hover:text-gray-600 transition-all">
+      <a href="/" aria-label="Return to homepage">
+        <Icon name="logo" aria-hidden="true" />
+      </a>
+    </div>
+    <div class="text-center">
+      <a
+        href={staticData.data.github}
+        class="flex items-center justify-center gap-3 text-base font-normal italic max-sm:text-sm text-gray-600 hover:text-black"
+        aria-label="About the website development"
+        ><Icon name="code" aria-hidden="true" /> Built by <strong>{staticData.data.alias}</strong></a
+      >
+    </div>
+    <div class="flex items-center justify-center gap-5" role="list" aria-label="Social media links">
+      {staticData.data.email && (
+        <Social link={`mailto:${staticData.data.email}`} iconName={staticData.data.emailIconName} label={`Send email to ${staticData.data.email}`} />
+      )}
+      {staticData.data.github && (
+        <Social link={staticData.data.github} iconName={staticData.data.githubIconName} label={`Visit ${staticData.data.alias} on GitHub`} />
+      )}
+    </div>
+  </nav>
+</footer>
