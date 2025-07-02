@@ -1,0 +1,5 @@
+[build]
+  command = "nix develop -c sh -c 'cd devrandom && npm ci --no-audit --prefer-offline && npm run build'"
+  publish = "devrandom/dist"
+
+env = { NIXPACKS_UNAME = "linux" } 
