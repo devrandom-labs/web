@@ -36,7 +36,7 @@ const ogimage = {
     <link rel="icon" type="image/svg+xml" href="/devrandom_logo.svg" />
     <!-- PNG fallback favicon -->
     <link rel="alternate icon" href="/favicon-32x32.png" sizes="32x32" />
-    <meta name="theme-color" content="#ff0080"/>
+    <meta name="theme-color" content="#ffffff"/>
     <!-- JetBrains Mono font for code-style tagline -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" />
   </head>
@@ -46,9 +46,11 @@ const ogimage = {
       <div class="logo-container">
         <img src="/devrandom_logo.svg" alt="devrandom" class="logo" />
       </div>
-      <p class="tagline" aria-label="Project description">
-        🤖🚀 Lightning-fast AI assistants you control locally. Link them together for even more brain-power. Built from the ground-up in Rust for blazingly quick performance and iron-clad security. 🔒
-      </p>
+
+      <div class="tagline" aria-label="Project description">
+        <h2 class="punch-sub">AI agents with verifiable souls. Rust-fast. Yours alone. ⛓️🦀</h2>
+        <p class="brand">The future is alive.</p>
+      </div>
 
       <!-- Netlify email capture form -->
       <form name="interest" netlify class="interest-form" aria-label="Join waitlist">
@@ -82,6 +84,7 @@ const ogimage = {
   }
 
   .synthwave-bg {
+    background-color: #ffffff; /* solid base so top pixel isn't pink */
     background: 
       /* Even stronger pixelated dithering with multi-color synthwave palette */
       radial-gradient(circle 1px at 1px 1px, rgba(255, 0, 128, 0.12) 0%, transparent 50%),
@@ -218,21 +221,45 @@ const ogimage = {
   /* tagline styles */
   .tagline {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 0.015em;
-    color: rgba(0, 0, 0, 0.75);
+    color: rgba(0, 0, 0, 0.85);
     max-width: 60ch;
-    line-height: 1.4;
     text-align: center;
     margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .tagline h1,
+  .tagline h2 {
+    margin-bottom: 0.25rem;
+    color: #000;
+  }
+
+  .punch-line {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .punch-sub {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .tagline p {
+    margin: 0.3rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  .brand {
+    font-weight: 600;
+    margin-top: 0.4rem;
+    font-size: 1rem;
   }
 
   @media (max-width: 480px) {
-    .tagline {
-      font-size: 0.9rem;
-      max-width: 32ch;
-    }
+    .punch-line { font-size: 1.2rem; }
+    .punch-sub  { font-size: 0.95rem; }
+    .tagline p  { font-size: 0.85rem; }
   }
 
   /* contact links */
