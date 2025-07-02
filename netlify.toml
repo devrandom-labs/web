@@ -1,5 +1,9 @@
 [build]
-  command = "nix develop -c sh -c 'cd devrandom && npm ci --no-audit --prefer-offline && npm run build'"
-  publish = "devrandom/dist"
-
-env = { NIXPACKS_UNAME = "linux" } 
+  # Tell Netlify to run the build from the "devrandom" subdirectory
+  base = "devrandom" 
+  
+  # Standard command to install dependencies and build an Astro site
+  command = "npm install && npm run build"
+  
+  # The publish directory is now relative to the base directory
+  publish = "dist"
