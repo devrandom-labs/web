@@ -36,9 +36,9 @@
   <!-- SVG FILTER DEFINITION -->
   <svg style="display: none">
     <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
-      <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
-      <feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" />
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.012" numOctaves="3" seed="92" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="3" result="blurred" />
+      <feDisplacementMap in="SourceGraphic" in2="blurred" scale="90" xChannelSelector="R" yChannelSelector="G" />
     </filter>
   </svg>
 </nav>
@@ -59,7 +59,6 @@
     left: 0;
     right: 0;
     z-index: 1000;
-    padding: 1rem 2rem;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   }
 
@@ -74,16 +73,14 @@
     font-weight: 600;
     color: var(--lg-text);
     background: transparent;
-    border-radius: 2rem;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 0 8px rgba(0, 0, 0, 0.02);
+    box-shadow: none;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-    opacity: 0.3;
+    width: 100%;
   }
 
   .main-nav.scrolled .glass-container {
-    opacity: 1;
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   /* ========== GLASS LAYERS ========== */
@@ -91,37 +88,39 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px) saturate(1);
     filter: url(#lg-dist);
     isolation: isolate;
+    transition: backdrop-filter 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  }
+
+  .main-nav.scrolled .glass-filter {
+    backdrop-filter: blur(8px) saturate(1.8);
   }
 
   .glass-overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: rgba(255, 255, 255, 0.08);
+    background: transparent;
     transition: background 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   }
 
   .main-nav.scrolled .glass-overlay {
-    background: var(--lg-bg-color);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.2));
   }
 
   .glass-specular {
     position: absolute;
     inset: 0;
     z-index: 2;
-    border-radius: inherit;
     overflow: hidden;
-    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-      inset 0 0 5px rgba(255, 255, 255, 0.1);
+    box-shadow: none;
     transition: box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   }
 
   .main-nav.scrolled .glass-specular {
-    box-shadow: inset 1px 1px 0 var(--lg-highlight),
-      inset 0 0 5px var(--lg-highlight);
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.6);
   }
 
   .glass-content {
@@ -129,9 +128,10 @@
     z-index: 3;
     display: flex;
     align-items: center;
-    padding: 0.5rem 2rem;
+    padding: 2.5rem 0;
     flex: 1 1 auto;
     justify-content: space-between;
+    width: 100%;
   }
 
   .nav-container {
@@ -141,6 +141,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    padding: 0 2rem;
   }
 
   .nav-logo {
@@ -155,7 +156,7 @@
   }
 
   .nav-logo-img {
-    height: 40px;
+    height: 50px;
     width: auto;
     filter: 
       drop-shadow(0 0 4px rgba(255, 255, 255, 0.1)) 
@@ -174,7 +175,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 2rem;
+    gap: 1rem;
     align-items: center;
   }
 
@@ -184,49 +185,47 @@
     font-weight: 500;
     color: var(--lg-text);
     text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 2.2);
     position: relative;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-
-  .main-nav.scrolled .nav-link {
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    text-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.6),
+      0 0 8px rgba(0, 0, 0, 0.4);
   }
 
   .nav-link:hover {
     color: var(--lg-text);
     background: var(--lg-hover-glow);
-    backdrop-filter: blur(10px);
-    transform: translateY(-2px);
+    backdrop-filter: blur(4px);
+    transform: translateY(-1px);
     box-shadow: 
-      0 6px 15px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .nav-link.active {
     color: var(--lg-text);
     background: var(--lg-hover-glow);
     font-weight: 600;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .nav-link.nav-cta {
-    background: var(--lg-red);
+    background: rgba(0, 0, 0, 0.8);
     color: white;
     font-weight: 600;
     box-shadow: 
-      0 4px 12px rgba(251, 66, 104, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      0 1px 3px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
   }
 
   .nav-link.nav-cta:hover {
-    background: var(--lg-red);
-    transform: translateY(-2px);
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-1px);
     box-shadow: 
-      0 8px 20px rgba(251, 66, 104, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      0 2px 6px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .mobile-menu-btn {
@@ -248,21 +247,21 @@
   }
 
   @media (max-width: 768px) {
-    .main-nav {
-      padding: 1rem;
+    .nav-container {
+      padding: 0 1rem;
     }
 
     .glass-content {
-      padding: 0.5rem 1rem;
+      padding: 2rem 0;
     }
 
     .nav-menu {
       position: fixed;
       top: 100%;
-      left: 1rem;
-      right: 1rem;
+      left: 0;
+      right: 0;
       background: var(--lg-bg-color);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(8px);
       flex-direction: column;
       padding: 2rem;
       gap: 1rem;
@@ -270,11 +269,9 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      border-radius: 1rem;
       box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.3),
-        inset 1px 1px 0 var(--lg-highlight),
-        inset 0 0 5px var(--lg-highlight);
+        0 2px 8px rgba(0, 0, 0, 0.15),
+        inset 0 -1px 0 var(--lg-highlight);
     }
 
     .nav-menu.active {
@@ -302,18 +299,22 @@
     .nav-link {
       width: 100%;
       text-align: center;
-      padding: 1rem;
-      font-size: 1rem;
+      padding: 0.75rem;
+      font-size: 0.9rem;
     }
   }
 
   @media (max-width: 480px) {
+    .nav-container {
+      padding: 0 0.5rem;
+    }
+
     .glass-content {
-      padding: 0.5rem;
+      padding: 1.5rem 0;
     }
 
     .nav-logo-img {
-      height: 35px;
+      height: 45px;
     }
   }
 
@@ -324,7 +325,19 @@
 
   /* Add padding to account for fixed nav */
   :global(body) {
-    padding-top: 90px;
+    padding-top: 160px;
+  }
+
+  @media (max-width: 768px) {
+    :global(body) {
+      padding-top: 140px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    :global(body) {
+      padding-top: 120px;
+    }
   }
 </style>
 
@@ -377,34 +390,43 @@
       const glassContainer = mainNav.querySelector('.glass-container');
       const glassOverlay = mainNav.querySelector('.glass-overlay');
       const glassSpecular = mainNav.querySelector('.glass-specular');
+      const glassFilter = mainNav.querySelector('.glass-filter');
       
-      if (glassContainer) {
-        // Gradual opacity from 0.3 to 1
-        const opacity = 0.3 + (scrollProgress * 0.7);
-        glassContainer.style.opacity = opacity;
-        
-        // Gradual shadow intensity
-        const shadowIntensity = scrollProgress;
-        glassContainer.style.boxShadow = `
-          0 ${2 + (shadowIntensity * 4)}px ${4 + (shadowIntensity * 2)}px rgba(0, 0, 0, ${0.05 + (shadowIntensity * 0.15)}),
-          0 0 ${8 + (shadowIntensity * 12)}px rgba(0, 0, 0, ${0.02 + (shadowIntensity * 0.08)})
-        `;
+             if (glassContainer) {
+         // Gradual subtle bottom shadow intensity
+         const shadowIntensity = scrollProgress;
+         glassContainer.style.boxShadow = `
+           0 ${shadowIntensity * 1}px ${shadowIntensity * 3}px rgba(0, 0, 0, ${shadowIntensity * 0.1})
+         `;
+       }
+      
+      if (glassFilter) {
+        // Gradual backdrop blur and saturation starting from 0
+        const blurAmount = scrollProgress * 8; // 0px to 8px
+        const saturation = 1 + (scrollProgress * 0.8); // 1 to 1.8
+        glassFilter.style.backdropFilter = `blur(${blurAmount}px) saturate(${saturation})`;
       }
-      
+
       if (glassOverlay) {
-        // Gradual background opacity
-        const bgOpacity = 0.08 + (scrollProgress * 0.17); // 0.08 to 0.25
-        glassOverlay.style.background = `rgba(255, 255, 255, ${bgOpacity})`;
+        // Gradual background starting from transparent
+        const darkOpacity = scrollProgress * 0.08; // 0 to 0.08
+        const lightOpacity = scrollProgress * 0.2; // 0 to 0.2
+        if (scrollProgress > 0) {
+          glassOverlay.style.background = `linear-gradient(135deg, rgba(0, 0, 0, ${darkOpacity}), rgba(255, 255, 255, ${lightOpacity}))`;
+        } else {
+          glassOverlay.style.background = 'transparent';
+        }
       }
       
-      if (glassSpecular) {
-        // Gradual specular highlight intensity
-        const specularOpacity = 0.1 + (scrollProgress * 0.65); // 0.1 to 0.75
-        glassSpecular.style.boxShadow = `
-          inset 1px 1px 0 rgba(255, 255, 255, ${0.2 + (scrollProgress * 0.55)}),
-          inset 0 0 5px rgba(255, 255, 255, ${0.1 + (scrollProgress * 0.65)})
-        `;
-      }
+             if (glassSpecular) {
+         // Gradual bottom border highlight intensity starting from transparent
+         const highlightOpacity = scrollProgress * 0.6; // 0 to 0.6
+         if (scrollProgress > 0) {
+           glassSpecular.style.boxShadow = `inset 0 -1px 0 rgba(255, 255, 255, ${highlightOpacity})`;
+         } else {
+           glassSpecular.style.boxShadow = 'none';
+         }
+       }
     }
 
     // Scroll spy functionality
