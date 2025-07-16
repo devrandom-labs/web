@@ -1,162 +1,443 @@
 ---
-import Social from "../ui/Social.astro";
-import { AstroError } from "astro/errors";
-import { getCollection} from "astro:content";
-
-const [staticData] = await getCollection('staticData');
-
-if (!staticData) {
-  throw new AstroError("JSON data not found");
-}
-
-const { items = [] }: { items: (keyof typeof menu)[] } = Astro.props as {
-  items: (keyof typeof menu)[];
-};
-
-const menu = {
-  about: { name: "About Me", path: "/about-me" },
-  home: { name: "Home", path: "/#home" },
-  experience: { name: "Experience", path: "/#experience" },
-  projects: { name: "Projects", path: "/#projects" },
-};
-
-// Common base classes
-const baseClasses = {
-  nav: "nav-links flex w-full justify-center gap-6 max-md:gap-3 max-md:py-6",
-  link: "px-2 py-2 transition-all hover:text-neon-pink-300 max-md:mx-auto max-md:w-full max-md:px-6 max-md:py-2 ",
-  socialContainer: "flex items-center justify-center gap-5 md:hidden",
-  dropdown: "relative group flex items-center",
-  dropdownMenu: "absolute left-0 top-full hidden group-hover:block bg-white dark:bg-zinc-800 shadow-lg rounded-md py-2 min-w-[200px] z-50",
-  dropdownItem: "block px-4 py-2 text-sm hover:bg-neon-pink-100 dark:hover:bg-zinc-700 transition-colors"
-} as const;
+// Navigation component for smooth scrolling to page sections
 ---
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const isHome = window.location.pathname === "/";
+<nav class="main-nav">
+  <div class="glass-container">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular"></div>
     
-    // Classes for link states
-    const linkClasses = {
-      active: ["text-neon-pink-500","dark:text-neon-pink-400", "font-bold", "[text-shadow:1px_1px_11px_rgba(236,72,153,0.7)]"],
-      inactive: ["dark:text-zinc-300",  "text-blacktext"]
-    };
+    <div class="glass-content nav-container">
+      <div class="nav-logo">
+        <a href="/" class="logo-link">
+          <img src="/devrandom_logo.svg" alt="devrandom" class="nav-logo-img" />
+        </a>
+      </div>
+      
+      <ul class="nav-menu">
+        <li><a href="#hero" class="nav-link" data-section="hero">Home</a></li>
+        <li><a href="#problem" class="nav-link" data-section="problem">Problem</a></li>
+        <li><a href="#solution" class="nav-link" data-section="solution">Solution</a></li>
+        <li><a href="#vision" class="nav-link" data-section="vision">Vision</a></li>
+        <li><a href="#team" class="nav-link" data-section="team">Team</a></li>
+        <li><a href="#contact" class="nav-link nav-cta" data-section="contact">Get Access</a></li>
+      </ul>
 
-    function toggleLinkClasses(link: Element, isActive: boolean) {
-      if (isActive) {
-        link.classList.add(...linkClasses.active);
-        link.classList.remove(...linkClasses.inactive);
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.classList.remove(...linkClasses.active);
-        link.classList.add(...linkClasses.inactive);
-        link.removeAttribute('aria-current');
-      }
+      <!-- Mobile menu button -->
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SVG FILTER DEFINITION -->
+  <svg style="display: none">
+    <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+      <feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+</nav>
+
+<style>
+  :root {
+    --lg-bg-color: rgba(255, 255, 255, 0.25);
+    --lg-highlight: rgba(255, 255, 255, 0.75);
+    --lg-text: #ffffff;
+    --lg-hover-glow: rgba(255, 255, 255, 0.4);
+    --lg-red: #fb4268;
+    --lg-grey: #5b5b5b;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1rem 2rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  }
+
+  .main-nav.scrolled {
+    opacity: 1;
+  }
+
+  /* ========== GLASS CONTAINER ========== */
+  .glass-container {
+    position: relative;
+    display: flex;
+    font-weight: 600;
+    color: var(--lg-text);
+    background: transparent;
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 0 8px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+    opacity: 0.3;
+  }
+
+  .main-nav.scrolled .glass-container {
+    opacity: 1;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ========== GLASS LAYERS ========== */
+  .glass-filter {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    backdrop-filter: blur(0px);
+    filter: url(#lg-dist);
+    isolation: isolate;
+  }
+
+  .glass-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  }
+
+  .main-nav.scrolled .glass-overlay {
+    background: var(--lg-bg-color);
+  }
+
+  .glass-specular {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    overflow: hidden;
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 0 5px rgba(255, 255, 255, 0.1);
+    transition: box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  }
+
+  .main-nav.scrolled .glass-specular {
+    box-shadow: inset 1px 1px 0 var(--lg-highlight),
+      inset 0 0 5px var(--lg-highlight);
+  }
+
+  .glass-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    flex: 1 1 auto;
+    justify-content: space-between;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .nav-logo-img {
+    height: 40px;
+    width: auto;
+    filter: 
+      drop-shadow(0 0 4px rgba(255, 255, 255, 0.1)) 
+      drop-shadow(0 0 8px rgba(255, 255, 255, 0.05));
+    transition: filter 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  }
+
+  .main-nav.scrolled .nav-logo-img {
+    filter: 
+      drop-shadow(0 0 4px rgba(255, 255, 255, 0.3)) 
+      drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--lg-text);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+    position: relative;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .main-nav.scrolled .nav-link {
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-link:hover {
+    color: var(--lg-text);
+    background: var(--lg-hover-glow);
+    backdrop-filter: blur(10px);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 15px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .nav-link.active {
+    color: var(--lg-text);
+    background: var(--lg-hover-glow);
+    font-weight: 600;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .nav-link.nav-cta {
+    background: var(--lg-red);
+    color: white;
+    font-weight: 600;
+    box-shadow: 
+      0 4px 12px rgba(251, 66, 104, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .nav-link.nav-cta:hover {
+    background: var(--lg-red);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 20px rgba(251, 66, 104, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    gap: 4px;
+  }
+
+  .hamburger {
+    width: 25px;
+    height: 3px;
+    background: var(--lg-text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    .main-nav {
+      padding: 1rem;
     }
 
-    function updateActiveLink() {
-      const currentPath = window.location.pathname;
-      const currentHash = window.location.hash ? `#${window.location.hash.substring(1)}` : "";
+    .glass-content {
+      padding: 0.5rem 1rem;
+    }
 
-      document.querySelectorAll("nav a").forEach((link) => {
-        const path = link.getAttribute("data-path");
-        toggleLinkClasses(link, path === currentPath || path === currentHash);
+    .nav-menu {
+      position: fixed;
+      top: 100%;
+      left: 1rem;
+      right: 1rem;
+      background: var(--lg-bg-color);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1rem;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      border-radius: 1rem;
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 1px 1px 0 var(--lg-highlight),
+        inset 0 0 5px var(--lg-highlight);
+    }
+
+    .nav-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu-btn {
+      display: flex;
+    }
+
+    .mobile-menu-btn.active .hamburger:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .mobile-menu-btn.active .hamburger:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-btn.active .hamburger:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    .nav-link {
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .glass-content {
+      padding: 0.5rem;
+    }
+
+    .nav-logo-img {
+      height: 35px;
+    }
+  }
+
+  /* Smooth scrolling for the whole page */
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  /* Add padding to account for fixed nav */
+  :global(body) {
+    padding-top: 90px;
+  }
+</style>
+
+<script>
+  // Mobile menu toggle functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link[data-section]');
+    const mainNav = document.querySelector('.main-nav');
+
+    // Mobile menu functionality
+    if (mobileMenuBtn && navMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+
+      // Close menu when clicking on a link
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenuBtn.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+          mobileMenuBtn.classList.remove('active');
+          navMenu.classList.remove('active');
+        }
       });
     }
 
-    function setupScrollSpy() {
-      if (!isHome) return;
-
-      const sections = document.querySelectorAll("section[id]");
-      const navLinks = document.querySelectorAll("nav a");
-
-      const observerOptions = {
-        root: null,
-        rootMargin: "-50% 0px",
-        threshold: 0
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.getAttribute("id");
-            if (sectionId) {
-              navLinks.forEach(link => {
-                const path = link.getAttribute("data-path");
-                toggleLinkClasses(link, path === `/#${sectionId}`);
-              });
-            }
-          }
-        });
-      }, observerOptions);
-
-      sections.forEach(section => observer.observe(section));
+    // Navigation transparency/glassy effect on scroll
+    function handleNavScroll() {
+      const scrollY = window.scrollY;
+      const maxScroll = 150; // Full effect at 150px
+      const scrollProgress = Math.min(scrollY / maxScroll, 1);
+      
+      // Add scrolled class for basic state change
+      if (scrollY > 20) {
+        mainNav.classList.add('scrolled');
+      } else {
+        mainNav.classList.remove('scrolled');
+      }
+      
+      // Apply gradual opacity and effects
+      const glassContainer = mainNav.querySelector('.glass-container');
+      const glassOverlay = mainNav.querySelector('.glass-overlay');
+      const glassSpecular = mainNav.querySelector('.glass-specular');
+      
+      if (glassContainer) {
+        // Gradual opacity from 0.3 to 1
+        const opacity = 0.3 + (scrollProgress * 0.7);
+        glassContainer.style.opacity = opacity;
+        
+        // Gradual shadow intensity
+        const shadowIntensity = scrollProgress;
+        glassContainer.style.boxShadow = `
+          0 ${2 + (shadowIntensity * 4)}px ${4 + (shadowIntensity * 2)}px rgba(0, 0, 0, ${0.05 + (shadowIntensity * 0.15)}),
+          0 0 ${8 + (shadowIntensity * 12)}px rgba(0, 0, 0, ${0.02 + (shadowIntensity * 0.08)})
+        `;
+      }
+      
+      if (glassOverlay) {
+        // Gradual background opacity
+        const bgOpacity = 0.08 + (scrollProgress * 0.17); // 0.08 to 0.25
+        glassOverlay.style.background = `rgba(255, 255, 255, ${bgOpacity})`;
+      }
+      
+      if (glassSpecular) {
+        // Gradual specular highlight intensity
+        const specularOpacity = 0.1 + (scrollProgress * 0.65); // 0.1 to 0.75
+        glassSpecular.style.boxShadow = `
+          inset 1px 1px 0 rgba(255, 255, 255, ${0.2 + (scrollProgress * 0.55)}),
+          inset 0 0 5px rgba(255, 255, 255, ${0.1 + (scrollProgress * 0.65)})
+        `;
+      }
     }
 
-    updateActiveLink();
-    setupScrollSpy();
-    window.addEventListener("hashchange", updateActiveLink);
+    // Scroll spy functionality
+    const sections = document.querySelectorAll('section[id]');
+    
+    function updateActiveNavLink() {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        if (scrollY >= (sectionTop - 100)) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('data-section') === current) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    // Update active link on scroll and handle nav transparency
+    window.addEventListener('scroll', () => {
+      updateActiveNavLink();
+      handleNavScroll();
+    });
+    
+    // Update active link and nav state on load
+    updateActiveNavLink();
+    handleNavScroll();
   });
 </script>
-
-<nav 
-  class={baseClasses.nav}
-  role="navigation"
-  aria-label="Main Navigation"
->
-  {
-    items.map((key: string) => {
-      const item = menu[key as keyof typeof menu];
-      if (!item) return null;
-
-      if ('dropdown' in item) {
-        return (
-          <div class={baseClasses.dropdown}>
-            <a
-              href={item.path}
-              class={baseClasses.link}
-              data-path={item.path}
-              aria-label={item.name}
-              aria-current={item.path === Astro.url.pathname ? 'page' : undefined}
-            >
-              {item.name}
-            </a>
-            <div class={baseClasses.dropdownMenu}>
-              {item.dropdown.map((dropdownItem) => (
-                <a
-                  href={dropdownItem.path}
-                  class={baseClasses.dropdownItem}
-                  data-path={dropdownItem.path}
-                  aria-label={dropdownItem.name}
-                >
-                  {dropdownItem.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        );
-      }
-
-      return (
-        <a
-          href={item.path}
-          class={baseClasses.link}
-          data-path={item.path}
-          aria-label={item.name}
-          aria-current={item.path === Astro.url.pathname ? 'page' : undefined}
-        >
-          {item.name}
-        </a>
-      );
-    })
-  }
-  
-  <div 
-    class={baseClasses.socialContainer}
-    role="group"
-    aria-label="Social Media Links"
-  >
-    {staticData.data.github && (
-      <Social link={staticData.data.github} iconName={staticData.data.githubIconName} />
-    )}
-  </div>
-</nav>

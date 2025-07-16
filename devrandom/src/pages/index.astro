@@ -1,13 +1,18 @@
 ---
 import "../styles/global.css";
+import Navigation from "../components/layout/Navigation.astro";
 import Hero from "../components/landing/Hero.astro";
 import EmailSignup from "../components/landing/EmailSignup.astro";
 import ContactLinks from "../components/landing/ContactLinks.astro";
 import TeamSection from "../components/landing/TeamSection.astro";
 import BackgroundCanvas from "../components/landing/BackgroundCanvas.astro";
+import ProblemSection from "../components/landing/ProblemSection.astro";
+import SolutionSection from "../components/landing/SolutionSection.astro";
+import VisionSection from "../components/landing/VisionSection.astro";
+import FinalCTA from "../components/landing/FinalCTA.astro";
 
 const pageTitle = "devrandom • AI Security Solutions";
-const description = "AI-powered vulnerability scanning for applications. Nova helps enterprises and developers find security flaws using intelligent agents for reasoning and inference.";
+const description = "Nova by devrandom: Autonomous AI agents with Self-Sovereign Identity (SSI) that hunt, verify, and neutralize cyber threats. Securing the AI era with trustworthy, verifiable intelligence.";
 const ogimage = {
   url: "/images/imagedefault.webp",
   alt: "devrandom",
@@ -24,7 +29,7 @@ const ogimage = {
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://devrandom.co/" />
     <meta property="og:title" content="devrandom • AI Security Solutions" />
-    <meta property="og:description" content="AI-powered vulnerability scanning for applications. Nova helps enterprises and developers find security flaws using intelligent agents." />
+    <meta property="og:description" content="Nova by devrandom: Autonomous AI agents with Self-Sovereign Identity (SSI) that hunt, verify, and neutralize cyber threats before they strike." />
     <meta property="og:image" content="https://devrandom.co/android-chrome-512x512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
@@ -34,7 +39,7 @@ const ogimage = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://devrandom.co/" />
     <meta name="twitter:title" content="devrandom • AI Security Solutions" />
-    <meta name="twitter:description" content="AI-powered vulnerability scanning for applications. Nova helps enterprises and developers find security flaws using intelligent agents." />
+    <meta name="twitter:description" content="Nova by devrandom: Autonomous AI agents with Self-Sovereign Identity (SSI) that hunt, verify, and neutralize cyber threats before they strike." />
     <meta name="twitter:image" content="https://devrandom.co/android-chrome-512x512.png" />
     <link rel="canonical" href="https://devrandom.co/" />
     <!-- SVG favicon for modern browsers -->
@@ -46,17 +51,47 @@ const ogimage = {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" />
   </head>
   <body>
+    <Navigation />
     <div class="synthwave-bg-fixed"></div>
-    <main class="main-content min-h-screen flex flex-col gap-6 items-center justify-center text-center px-4 relative">
+    
+    <!-- Hero Section (Above the Fold) -->
+    <main class="main-content">
       <BackgroundCanvas />
       
-      <Hero />
-      
-      <EmailSignup />
+      <section id="hero" class="hero-container">
+        <Hero />
+        <EmailSignup />
+      </section>
 
-      <ContactLinks />
+      <!-- Problem Section -->
+      <section id="problem">
+        <ProblemSection />
+      </section>
 
-      <TeamSection />
+      <!-- Solution Section -->
+      <section id="solution">
+        <SolutionSection />
+      </section>
+
+      <!-- Vision Section -->
+      <section id="vision">
+        <VisionSection />
+      </section>
+
+      <!-- Final Call-to-Action -->
+      <section id="contact">
+        <FinalCTA />
+      </section>
+
+      <!-- Contact Links -->
+      <div class="contact-section">
+        <ContactLinks />
+      </div>
+
+      <!-- Team Section -->
+      <section id="team">
+        <TeamSection />
+      </section>
     </main>
   </body>
 </html>
@@ -133,6 +168,27 @@ const ogimage = {
     z-index: 1;
   }
 
+  .hero-container {
+    min-h: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1rem;
+    gap: 3rem;
+  }
+
+  .contact-section {
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  /* Add scroll margin to account for fixed nav */
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+
   @keyframes pixel-drift {
     0% {
       background-position:
@@ -187,5 +243,12 @@ const ogimage = {
     33%  {transform: translate3d(5%, 8%, 0)   scale(1.15);} 
     66%  {transform: translate3d(-4%, 12%, 0)  scale(0.9);} 
     100% {transform: translate3d(8%, -6%, 0)  scale(1.1);} 
+  }
+
+  @media (max-width: 768px) {
+    .hero-container {
+      padding: 2rem 1rem;
+      gap: 2rem;
+    }
   }
 </style>

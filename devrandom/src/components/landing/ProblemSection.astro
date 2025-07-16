@@ -1,0 +1,127 @@
+---
+// Problem section component
+import { getEntry } from 'astro:content';
+
+const problemContent = await getEntry('problem', 'main');
+const { Content } = await problemContent.render();
+---
+
+<section class="problem-section">
+  <div class="problem-header">
+    <h2 class="problem-title">{problemContent.data.title}</h2>
+    <h3 class="problem-subtitle">{problemContent.data.subtitle}</h3>
+  </div>
+  
+  <div class="problem-content">
+    <Content />
+  </div>
+
+  <div class="problem-points">
+    {problemContent.data.points.map((point) => (
+      <div class="problem-point">
+        <h4 class="point-title">{point.title}</h4>
+        <p class="point-description">{point.description}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .problem-section {
+    padding: 4rem 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .problem-header {
+    margin-bottom: 2rem;
+  }
+
+  .problem-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 0.5rem;
+  }
+
+  .problem-subtitle {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 1rem;
+  }
+
+  .problem-content {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.7);
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    max-width: 80ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .problem-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .problem-point {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .problem-point:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.1);
+  }
+
+  .point-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #d32f2f;
+    margin-bottom: 1rem;
+  }
+
+  .point-description {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .problem-section {
+      padding: 3rem 1rem;
+    }
+
+    .problem-title {
+      font-size: 1.6rem;
+    }
+
+    .problem-subtitle {
+      font-size: 1rem;
+    }
+
+    .problem-points {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .problem-point {
+      padding: 1.5rem;
+    }
+  }
+</style> 

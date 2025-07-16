@@ -46,8 +46,45 @@ const teamCollection = defineCollection({
 const heroCollection = defineCollection({
   type: 'content',
   schema: z.object({
+    headline: z.string(),
+    subheadline: z.string(),
+    cta: z.string(),
+  }),
+});
+
+const problemCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
     title: z.string(),
     subtitle: z.string(),
+    points: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+    })),
+  }),
+});
+
+const solutionCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    steps: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+    })),
+    features: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+      benefit: z.string(),
+    })),
+  }),
+});
+
+const visionCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
   }),
 });
 
@@ -55,4 +92,7 @@ export const collections = {
   staticData: jsonDataCollection,
   team: teamCollection,
   hero: heroCollection,
+  problem: problemCollection,
+  solution: solutionCollection,
+  vision: visionCollection,
 };

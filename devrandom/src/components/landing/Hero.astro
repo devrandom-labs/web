@@ -10,9 +10,9 @@ const heroContent = await getEntry('hero', 'main');
     <img src="/devrandom_logo.svg" alt="devrandom" class="logo" />
   </div>
 
-  <div class="tagline" aria-label="Project description">
-    <h2 class="punch-sub">{heroContent.data.title}</h2>
-    <p class="brand">{heroContent.data.subtitle}</p>
+  <div class="hero-content" aria-label="Project description">
+    <h1 class="hero-headline">{heroContent.data.headline}</h1>
+    <p class="hero-subheadline">{heroContent.data.subheadline}</p>
   </div>
 </div>
 
@@ -21,7 +21,7 @@ const heroContent = await getEntry('hero', 'main');
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .logo-container {
@@ -50,47 +50,47 @@ const heroContent = await getEntry('hero', 'main');
     }
   }
 
-  /* tagline styles */
-  .tagline {
+  /* hero content styles */
+  .hero-content {
     font-family: "JetBrains Mono", monospace;
     color: rgba(0, 0, 0, 0.85);
-    max-width: 60ch;
+    max-width: 80ch;
     text-align: center;
     margin: 0 auto;
     line-height: 1.5;
   }
 
-  .tagline h1,
-  .tagline h2 {
-    margin-bottom: 0.25rem;
+  .hero-headline {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
     color: #000;
   }
 
-  .punch-line {
-    font-size: 1.6rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-
-  .punch-sub {
-    font-size: 1.1rem;
-    font-weight: 500;
-  }
-
-  .tagline p {
-    margin: 0.3rem 0 0;
-    font-size: 0.95rem;
-  }
-
-  .brand {
-    font-weight: 600;
-    margin-top: 0.4rem;
+  .hero-subheadline {
     font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, 0.8);
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero-headline { 
+      font-size: 1.5rem; 
+    }
+    .hero-subheadline { 
+      font-size: 0.9rem; 
+    }
   }
 
   @media (max-width: 480px) {
-    .punch-line { font-size: 1.2rem; }
-    .punch-sub  { font-size: 0.95rem; }
-    .tagline p  { font-size: 0.85rem; }
+    .hero-headline { 
+      font-size: 1.3rem; 
+    }
+    .hero-subheadline { 
+      font-size: 0.85rem; 
+    }
   }
 </style> 

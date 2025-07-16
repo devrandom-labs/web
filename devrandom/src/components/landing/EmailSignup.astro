@@ -1,5 +1,8 @@
 ---
 // Email signup component for waitlist
+import { getEntry } from 'astro:content';
+
+const heroContent = await getEntry('hero', 'main');
 ---
 
 <!-- Netlify email capture form -->
@@ -8,9 +11,9 @@
   <input type="hidden" name="form-name" value="interest" />
 
   <label for="emailField" class="sr-only">Email address</label>
-  <input id="emailField" name="email" type="email" required placeholder="you@example.com" class="email-input" />
+  <input id="emailField" name="email" type="email" required placeholder="your.email@company.com" class="email-input" />
 
-  <button type="submit" class="email-submit">Join&nbsp;Waitlist</button>
+  <button type="submit" class="email-submit">{heroContent.data.cta}</button>
 </form>
 
 <style>
@@ -22,49 +25,62 @@
     justify-content: center;
     align-items: center;
     font-family: "JetBrains Mono", monospace;
-    margin: 0.25rem auto 0.5rem;
+    margin: 1rem auto;
   }
 
   .email-input {
     font-family: inherit;
     font-size: 0.9rem;
-    padding: 0.45rem 0.75rem;
+    padding: 0.6rem 1rem;
     border: 1px solid rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.85);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.9);
     color: #000;
-    min-width: 220px;
+    min-width: 280px;
+    transition: all 0.2s ease;
   }
 
   .email-input:focus {
-    outline: 2px solid rgba(0, 0, 0, 0.5);
+    outline: 2px solid rgba(0, 0, 0, 0.6);
     outline-offset: 1px;
+    border-color: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 1);
   }
 
   .email-submit {
     font-family: inherit;
     font-size: 0.9rem;
-    padding: 0.5rem 1.1rem;
+    font-weight: 500;
+    padding: 0.6rem 1.5rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     background: #000;
     color: #fff;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
+    white-space: nowrap;
   }
 
   .email-submit:hover {
     background: #333;
+    transform: translateY(-1px);
+  }
+
+  .email-submit:active {
+    transform: translateY(0);
   }
 
   @media (max-width: 480px) {
     .interest-form {
       gap: 0.5rem;
+      flex-direction: column;
+      width: 100%;
     }
 
     .email-input {
       flex: 1 1 100%;
       min-width: 0;
+      width: 100%;
     }
 
     .email-submit {

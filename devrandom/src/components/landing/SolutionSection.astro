@@ -1,0 +1,234 @@
+---
+// Solution section component
+import { getEntry } from 'astro:content';
+
+const solutionContent = await getEntry('solution', 'main');
+const { Content } = await solutionContent.render();
+---
+
+<section class="solution-section">
+  <div class="solution-header">
+    <h2 class="solution-title">{solutionContent.data.title}</h2>
+    <h3 class="solution-subtitle">{solutionContent.data.subtitle}</h3>
+  </div>
+  
+  <div class="solution-content">
+    <Content />
+  </div>
+
+  <div class="how-it-works">
+    <h3 class="steps-title">How It Works</h3>
+    <div class="steps-grid">
+      {solutionContent.data.steps.map((step, index) => (
+        <div class="step">
+          <div class="step-number">{index + 1}</div>
+          <h4 class="step-title">{step.title}</h4>
+          <p class="step-description">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="features-section">
+    <h3 class="features-title">Key Features & Benefits</h3>
+    <div class="features-grid">
+      {solutionContent.data.features.map((feature) => (
+        <div class="feature">
+          <h4 class="feature-title">{feature.title}</h4>
+          <p class="feature-description">{feature.description}</p>
+          <p class="feature-benefit"><strong>Benefit:</strong> {feature.benefit}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .solution-section {
+    padding: 4rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .solution-header {
+    margin-bottom: 2rem;
+  }
+
+  .solution-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 0.5rem;
+  }
+
+  .solution-subtitle {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 1rem;
+  }
+
+  .solution-content {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.7);
+    line-height: 1.6;
+    margin-bottom: 4rem;
+    max-width: 80ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .how-it-works {
+    margin-bottom: 4rem;
+  }
+
+  .steps-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 2rem;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .step {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 100, 255, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+  }
+
+  .step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 100, 255, 0.1);
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #0066ff;
+    color: white;
+    border-radius: 50%;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .step-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0066ff;
+    margin-bottom: 1rem;
+  }
+
+  .step-description {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .features-section {
+    margin-top: 4rem;
+  }
+
+  .features-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 2rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .feature {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 200, 0, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .feature:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 200, 0, 0.1);
+  }
+
+  .feature-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #00c853;
+    margin-bottom: 1rem;
+  }
+
+  .feature-description {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .feature-benefit {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.8);
+    line-height: 1.4;
+    margin: 0;
+    padding: 1rem;
+    background: rgba(0, 200, 83, 0.1);
+    border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .solution-section {
+      padding: 3rem 1rem;
+    }
+
+    .solution-title {
+      font-size: 1.6rem;
+    }
+
+    .solution-subtitle {
+      font-size: 1rem;
+    }
+
+    .steps-grid,
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .step,
+    .feature {
+      padding: 1.5rem;
+    }
+  }
+</style> 
