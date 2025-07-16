@@ -1,0 +1,31 @@
+---
+// Contact links component for social media
+---
+
+<div class="contact-links" aria-label="Links">
+  <a href="https://github.com/devrandom-labs" target="_blank" rel="noopener" class="contact-link">😺 GitHub</a>
+  <a href="mailto:joel@devrandom.co" class="contact-link">✉️ Email</a>
+</div>
+
+<style>
+  /* contact links */
+  .contact-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+  }
+
+  .contact-link {
+    color: rgba(0, 0, 0, 0.75);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .contact-link:hover {
+    color: rgba(0, 0, 0, 0.9);
+    text-decoration: underline;
+  }
+</style> 

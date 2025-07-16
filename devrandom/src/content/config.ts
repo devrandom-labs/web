@@ -31,6 +31,28 @@ const jsonDataCollection = defineCollection({
   }),
 });
 
+const teamCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    avatar: z.string(),
+    linkedin: z.string().url().optional(),
+    github: z.string().url().optional(),
+    order: z.number(),
+  }),
+});
+
+const heroCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+  }),
+});
+
 export const collections = {
   staticData: jsonDataCollection,
+  team: teamCollection,
+  hero: heroCollection,
 };

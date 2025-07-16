@@ -1,8 +1,13 @@
 ---
 import "../styles/global.css";
+import Hero from "../components/landing/Hero.astro";
+import EmailSignup from "../components/landing/EmailSignup.astro";
+import ContactLinks from "../components/landing/ContactLinks.astro";
+import TeamSection from "../components/landing/TeamSection.astro";
+import BackgroundCanvas from "../components/landing/BackgroundCanvas.astro";
 
-const pageTitle = "devrandom";
-const description = "Welcome to devrandom";
+const pageTitle = "devrandom • AI Security Solutions";
+const description = "AI-powered vulnerability scanning for applications. Nova helps enterprises and developers find security flaws using intelligent agents for reasoning and inference.";
 const ogimage = {
   url: "/images/imagedefault.webp",
   alt: "devrandom",
@@ -18,8 +23,8 @@ const ogimage = {
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://devrandom.co/" />
-    <meta property="og:title" content="devrandom • Fast, Secure AI Assistant Runtime" />
-    <meta property="og:description" content="Run lightning-fast AI assistants locally, link them together for more brain-power, all built in Rust for iron-clad security." />
+    <meta property="og:title" content="devrandom • AI Security Solutions" />
+    <meta property="og:description" content="AI-powered vulnerability scanning for applications. Nova helps enterprises and developers find security flaws using intelligent agents." />
     <meta property="og:image" content="https://devrandom.co/android-chrome-512x512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
@@ -28,8 +33,8 @@ const ogimage = {
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://devrandom.co/" />
-    <meta name="twitter:title" content="devrandom • Fast, Secure AI Assistant Runtime" />
-    <meta name="twitter:description" content="Run lightning-fast AI assistants locally, link them together for more brain-power, all built in Rust for iron-clad security." />
+    <meta name="twitter:title" content="devrandom • AI Security Solutions" />
+    <meta name="twitter:description" content="AI-powered vulnerability scanning for applications. Nova helps enterprises and developers find security flaws using intelligent agents." />
     <meta name="twitter:image" content="https://devrandom.co/android-chrome-512x512.png" />
     <link rel="canonical" href="https://devrandom.co/" />
     <!-- SVG favicon for modern browsers -->
@@ -41,33 +46,17 @@ const ogimage = {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" />
   </head>
   <body>
-    <main class="synthwave-bg min-h-screen flex flex-col gap-6 items-center justify-center text-center px-4 relative">
-      <canvas id="agentsCanvas"></canvas>
-      <div class="logo-container">
-        <img src="/devrandom_logo.svg" alt="devrandom" class="logo" />
-      </div>
+    <div class="synthwave-bg-fixed"></div>
+    <main class="main-content min-h-screen flex flex-col gap-6 items-center justify-center text-center px-4 relative">
+      <BackgroundCanvas />
+      
+      <Hero />
+      
+      <EmailSignup />
 
-      <div class="tagline" aria-label="Project description">
-        <h2 class="punch-sub">AI agents with verifiable souls. Rust-fast. Yours alone. ⛓️🦀</h2>
-        <p class="brand">The future is alive.</p>
-      </div>
+      <ContactLinks />
 
-      <!-- Netlify email capture form -->
-      <form name="interest" netlify class="interest-form" aria-label="Join waitlist">
-        <!-- Netlify needs an explicit hidden field when using name attr -->
-        <input type="hidden" name="form-name" value="interest" />
-
-        <label for="emailField" class="sr-only">Email address</label>
-        <input id="emailField" name="email" type="email" required placeholder="you@example.com" class="email-input" />
-
-        <button type="submit" class="email-submit">Join&nbsp;Waitlist</button>
-      </form>
-
-      <div class="contact-links" aria-label="Links">
-        <a href="https://github.com/devrandom-labs" target="_blank" rel="noopener" class="contact-link">😺 GitHub</a>
-        <a href="mailto:joel@devrandom.co" class="contact-link">✉️ Email</a>
-        <a href="https://www.linkedin.com/in/joeldsouzax" target="_blank" rel="noopener" class="contact-link">🔗 LinkedIn</a>
-      </div>
+      <TeamSection />
     </main>
   </body>
 </html>
@@ -80,10 +69,15 @@ const ogimage = {
   }
 
   body {
-    overflow: hidden;
+    /* Removed overflow: hidden to allow scrolling */
   }
 
-  .synthwave-bg {
+  .synthwave-bg-fixed {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
     background-color: #ffffff; /* solid base so top pixel isn't pink */
     background: 
       /* Even stronger pixelated dithering with multi-color synthwave palette */
@@ -132,8 +126,11 @@ const ogimage = {
       7px 5px,
       0 0;
     animation: pixel-drift 12s ease-in-out infinite alternate;
+  }
+
+  .main-content {
     position: relative;
-    overflow: hidden;
+    z-index: 1;
   }
 
   @keyframes pixel-drift {
@@ -163,35 +160,9 @@ const ogimage = {
     }
   }
 
-  .logo-container {
-    /* animation disabled */
-  }
-
-  .logo {
-    width: 300px;
-    height: auto;
-    filter: 
-      drop-shadow(0 0 8px rgba(255, 0, 128, 0.10)) 
-      drop-shadow(0 0 16px rgba(139, 0, 255, 0.07)) 
-      drop-shadow(0 0 24px rgba(255, 0, 128, 0.05));
-    /* animation disabled */
-  }
-
-  @media (max-width: 768px) {
-    .logo {
-      width: 250px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .logo {
-      width: 200px;
-    }
-  }
-
   /* floating blurred colour blobs */
-  .synthwave-bg::before,
-  .synthwave-bg::after {
+  .synthwave-bg-fixed::before,
+  .synthwave-bg-fixed::after {
     content: "";
     position: absolute;
     inset: -20%;
@@ -206,7 +177,7 @@ const ogimage = {
     animation: blobMove 25s ease-in-out infinite;
     pointer-events: none;
   }
-  .synthwave-bg::after {
+  .synthwave-bg-fixed::after {
     animation-direction: alternate-reverse;
     animation-duration: 35s;
   }
@@ -217,246 +188,4 @@ const ogimage = {
     66%  {transform: translate3d(-4%, 12%, 0)  scale(0.9);} 
     100% {transform: translate3d(8%, -6%, 0)  scale(1.1);} 
   }
-
-  /* tagline styles */
-  .tagline {
-    font-family: "JetBrains Mono", monospace;
-    color: rgba(0, 0, 0, 0.85);
-    max-width: 60ch;
-    text-align: center;
-    margin: 0 auto;
-    line-height: 1.5;
-  }
-
-  .tagline h1,
-  .tagline h2 {
-    margin-bottom: 0.25rem;
-    color: #000;
-  }
-
-  .punch-line {
-    font-size: 1.6rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-
-  .punch-sub {
-    font-size: 1.1rem;
-    font-weight: 500;
-  }
-
-  .tagline p {
-    margin: 0.3rem 0 0;
-    font-size: 0.95rem;
-  }
-
-  .brand {
-    font-weight: 600;
-    margin-top: 0.4rem;
-    font-size: 1rem;
-  }
-
-  @media (max-width: 480px) {
-    .punch-line { font-size: 1.2rem; }
-    .punch-sub  { font-size: 0.95rem; }
-    .tagline p  { font-size: 0.85rem; }
-  }
-
-  /* contact links */
-  .contact-links {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.9rem;
-  }
-
-  .contact-link {
-    color: rgba(0, 0, 0, 0.75);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .contact-link:hover {
-    color: rgba(0, 0, 0, 0.9);
-    text-decoration: underline;
-  }
-
-  /* three.js canvas */
-  #agentsCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* sit above background, below content */
-    pointer-events: none;
-  }
-
-  /* wait-list form */
-  .interest-form {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    font-family: "JetBrains Mono", monospace;
-    margin: 0.25rem auto 0.5rem;
-  }
-
-  .email-input {
-    font-family: inherit;
-    font-size: 0.9rem;
-    padding: 0.45rem 0.75rem;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.85);
-    color: #000;
-    min-width: 220px;
-  }
-
-  .email-input:focus {
-    outline: 2px solid rgba(0, 0, 0, 0.5);
-    outline-offset: 1px;
-  }
-
-  .email-submit {
-    font-family: inherit;
-    font-size: 0.9rem;
-    padding: 0.5rem 1.1rem;
-    border: none;
-    border-radius: 4px;
-    background: #000;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-
-  .email-submit:hover {
-    background: #333;
-  }
-
-  @media (max-width: 480px) {
-    .interest-form {
-      gap: 0.5rem;
-    }
-
-    .email-input {
-      flex: 1 1 100%;
-      min-width: 0;
-    }
-
-    .email-submit {
-      width: 100%;
-    }
-  }
 </style>
-
-<!-- Three.js floating agent network -->
-<script type="module">
-  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js";
-
-  const canvas = document.getElementById("agentsCanvas");
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  const scene = new THREE.Scene();
-
-  const camera = new THREE.PerspectiveCamera(60, 2, 0.1, 100);
-  camera.position.z = 5;
-
-  const colors = [0xff0080, 0x8b00ff, 0x00ffff, 0x00c8ff, 0xff6400, 0xffff00, 0x00ff80];
-  const blobs = [];
-  const BLOB_COUNT = 14;
-
-  function makeSoftTexture(hex) {
-    const size = 128;
-    const c = document.createElement("canvas");
-    c.width = c.height = size;
-    const ctx = c.getContext("2d");
-    const grd = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    const rgba = `rgba(${(hex>>16)&255}, ${(hex>>8)&255}, ${hex&255},`;
-    grd.addColorStop(0, `${rgba}0.25)`);
-    grd.addColorStop(1, `${rgba}0)`);
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, size, size);
-    const texture = new THREE.CanvasTexture(c);
-    return texture;
-  }
-
-  const softTextures = colors.map(makeSoftTexture);
-
-  function createBlob(i) {
-    const material = new THREE.SpriteMaterial({
-      map: softTextures[i % softTextures.length],
-      depthWrite: false,
-      transparent: true,
-      opacity: 0.9,
-      blending: THREE.AdditiveBlending,
-    });
-    const sprite = new THREE.Sprite(material);
-    const scale = 0.8 + Math.random() * 0.8;
-    sprite.scale.set(scale, scale, 1);
-    sprite.position.set((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 2);
-    sprite.userData.velocity = new THREE.Vector3((Math.random() - 0.5) * 0.01, (Math.random() - 0.5) * 0.01, 0);
-    scene.add(sprite);
-    blobs.push(sprite);
-  }
-
-  for (let i = 0; i < BLOB_COUNT; i++) createBlob(i);
-
-  // line pool
-  const maxConnections = BLOB_COUNT * BLOB_COUNT;
-  const positions = new Float32Array(maxConnections * 3);
-  const lineGeometry = new THREE.BufferGeometry();
-  lineGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.08 });
-  const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial);
-  scene.add(lineSegments);
-
-  function resizeRenderer() {
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    if (canvas.width !== width || canvas.height !== height) {
-      renderer.setSize(width, height, false);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-    }
-  }
-
-  window.addEventListener("resize", resizeRenderer);
-  resizeRenderer();
-
-  function animate() {
-    resizeRenderer();
-
-    let ptr = 0;
-    for (let i = 0; i < BLOB_COUNT; i++) {
-      const a = blobs[i];
-      a.position.add(a.userData.velocity);
-      ["x", "y", "z"].forEach((axis) => {
-        const limit = axis === "z" ? 2 : axis === "y" ? 3 : 4;
-        if (a.position[axis] > limit || a.position[axis] < -limit) a.userData.velocity[axis] *= -1;
-      });
-
-      for (let j = i + 1; j < BLOB_COUNT; j++) {
-        const b = blobs[j];
-        const dist = a.position.distanceTo(b.position);
-        if (dist < 2) {
-          positions[ptr++] = a.position.x;
-          positions[ptr++] = a.position.y;
-          positions[ptr++] = a.position.z;
-          positions[ptr++] = b.position.x;
-          positions[ptr++] = b.position.y;
-          positions[ptr++] = b.position.z;
-        }
-      }
-    }
-
-    lineGeometry.setDrawRange(0, ptr / 3);
-    lineGeometry.attributes.position.needsUpdate = true;
-
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-</script>

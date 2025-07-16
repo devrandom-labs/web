@@ -1,0 +1,126 @@
+---
+// Background canvas component with Three.js floating agent network
+---
+
+<canvas id="agentsCanvas"></canvas>
+
+<style>
+  /* three.js canvas */
+  #agentsCanvas {
+    position: fixed; /* Changed from absolute to fixed so it stays in background when scrolling */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Updated to layer between background (-3) and content (1) */
+    pointer-events: none;
+  }
+</style>
+
+<!-- Three.js floating agent network -->
+<script type="module">
+  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js";
+
+  const canvas = document.getElementById("agentsCanvas");
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(60, 2, 0.1, 100);
+  camera.position.z = 5;
+
+  const colors = [0xff0080, 0x8b00ff, 0x00ffff, 0x00c8ff, 0xff6400, 0xffff00, 0x00ff80];
+  const blobs = [];
+  const BLOB_COUNT = 14;
+
+  function makeSoftTexture(hex) {
+    const size = 128;
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const ctx = c.getContext("2d");
+    const grd = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    const rgba = `rgba(${(hex>>16)&255}, ${(hex>>8)&255}, ${hex&255},`;
+    grd.addColorStop(0, `${rgba}0.25)`);
+    grd.addColorStop(1, `${rgba}0)`);
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, size, size);
+    const texture = new THREE.CanvasTexture(c);
+    return texture;
+  }
+
+  const softTextures = colors.map(makeSoftTexture);
+
+  function createBlob(i) {
+    const material = new THREE.SpriteMaterial({
+      map: softTextures[i % softTextures.length],
+      depthWrite: false,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+    });
+    const sprite = new THREE.Sprite(material);
+    const scale = 0.8 + Math.random() * 0.8;
+    sprite.scale.set(scale, scale, 1);
+    sprite.position.set((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 2);
+    sprite.userData.velocity = new THREE.Vector3((Math.random() - 0.5) * 0.01, (Math.random() - 0.5) * 0.01, 0);
+    scene.add(sprite);
+    blobs.push(sprite);
+  }
+
+  for (let i = 0; i < BLOB_COUNT; i++) createBlob(i);
+
+  // line pool
+  const maxConnections = BLOB_COUNT * BLOB_COUNT;
+  const positions = new Float32Array(maxConnections * 3);
+  const lineGeometry = new THREE.BufferGeometry();
+  lineGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.08 });
+  const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial);
+  scene.add(lineSegments);
+
+  function resizeRenderer() {
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    if (canvas.width !== width || canvas.height !== height) {
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+  }
+
+  window.addEventListener("resize", resizeRenderer);
+  resizeRenderer();
+
+  function animate() {
+    resizeRenderer();
+
+    let ptr = 0;
+    for (let i = 0; i < BLOB_COUNT; i++) {
+      const a = blobs[i];
+      a.position.add(a.userData.velocity);
+      ["x", "y", "z"].forEach((axis) => {
+        const limit = axis === "z" ? 2 : axis === "y" ? 3 : 4;
+        if (a.position[axis] > limit || a.position[axis] < -limit) a.userData.velocity[axis] *= -1;
+      });
+
+      for (let j = i + 1; j < BLOB_COUNT; j++) {
+        const b = blobs[j];
+        const dist = a.position.distanceTo(b.position);
+        if (dist < 2) {
+          positions[ptr++] = a.position.x;
+          positions[ptr++] = a.position.y;
+          positions[ptr++] = a.position.z;
+          positions[ptr++] = b.position.x;
+          positions[ptr++] = b.position.y;
+          positions[ptr++] = b.position.z;
+        }
+      }
+    }
+
+    lineGeometry.setDrawRange(0, ptr / 3);
+    lineGeometry.attributes.position.needsUpdate = true;
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script> 
