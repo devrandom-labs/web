@@ -84,17 +84,17 @@ const ogimage = {
       </div>
     </section>
 
-    <!-- Final Call-to-Action -->
-    <section id="contact" class="page-section contact-section">
-      <div class="section-container">
-        <FinalCTA />
-      </div>
-    </section>
-
     <!-- Team Section -->
     <section id="team" class="page-section team-section">
       <div class="section-container">
         <TeamSection />
+      </div>
+    </section>
+
+    <!-- Final Call-to-Action -->
+    <section id="contact" class="page-section contact-section">
+      <div class="section-container">
+        <FinalCTA />
       </div>
     </section>
 
@@ -199,7 +199,7 @@ const ogimage = {
   .page-section {
     position: relative;
     width: 100%;
-    padding: 6rem 0;
+    padding: 3rem 0;
     background: #ffffff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
@@ -238,6 +238,7 @@ const ogimage = {
       rgba(255, 255, 255, 1) 100%
     );
     text-align: center;
+    border-bottom: none; /* remove divider below last CTA */
   }
 
   .team-section {
