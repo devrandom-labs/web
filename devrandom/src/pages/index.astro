@@ -65,6 +65,7 @@ const ogimage = {
 
     <!-- Problem Section -->
     <section id="problem" class="page-section problem-section">
+      <div class="synthwave-bg-fixed"></div>
       <div class="section-container">
         <ProblemSection />
       </div>
@@ -72,6 +73,7 @@ const ogimage = {
 
     <!-- Solution Section -->
     <section id="solution" class="page-section solution-section">
+      <div class="synthwave-bg-fixed"></div>
       <div class="section-container">
         <SolutionSection />
       </div>
@@ -79,6 +81,7 @@ const ogimage = {
 
     <!-- Vision Section -->
     <section id="vision" class="page-section vision-section">
+      <div class="synthwave-bg-fixed"></div>
       <div class="section-container">
         <VisionSection />
       </div>
@@ -86,6 +89,7 @@ const ogimage = {
 
     <!-- Team Section -->
     <section id="team" class="page-section team-section">
+      <div class="synthwave-bg-fixed"></div>
       <div class="section-container">
         <TeamSection />
       </div>
@@ -93,9 +97,7 @@ const ogimage = {
 
     <!-- Final Call-to-Action -->
     <section id="contact" class="page-section contact-section">
-      <div class="section-container">
-        <FinalCTA />
-      </div>
+      <FinalCTA />
     </section>
 
     <!-- Footer -->
@@ -200,7 +202,7 @@ const ogimage = {
     position: relative;
     width: 100%;
     padding: 3rem 0;
-    background: #ffffff;
+    background: transparent;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 
@@ -212,40 +214,26 @@ const ogimage = {
 
   /* Individual Section Styling */
   .problem-section {
-    background: linear-gradient(135deg, 
-      rgba(255, 245, 245, 0.8) 0%, 
-      rgba(255, 255, 255, 1) 100%
-    );
+    background: transparent;
   }
 
   .solution-section {
-    background: linear-gradient(135deg, 
-      rgba(240, 255, 240, 0.8) 0%, 
-      rgba(255, 255, 255, 1) 100%
-    );
+    background: transparent;
   }
 
   .vision-section {
-    background: linear-gradient(135deg, 
-      rgba(245, 245, 255, 0.8) 0%, 
-      rgba(255, 255, 255, 1) 100%
-    );
+    background: transparent;
   }
 
   .contact-section {
-    background: linear-gradient(135deg, 
-      rgba(255, 250, 240, 0.8) 0%, 
-      rgba(255, 255, 255, 1) 100%
-    );
+    background: transparent;
     text-align: center;
     border-bottom: none; /* remove divider below last CTA */
+    padding: 0;
   }
 
   .team-section {
-    background: linear-gradient(135deg, 
-      rgba(250, 255, 250, 0.8) 0%, 
-      rgba(255, 255, 255, 1) 100%
-    );
+    background: transparent;
   }
 
   /* Add scroll margin to account for fixed nav */
