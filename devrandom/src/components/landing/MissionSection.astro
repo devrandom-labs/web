@@ -1,0 +1,64 @@
+---
+// Mission section component
+---
+
+<section class="mission-section">
+  <div class="mission-container">
+    <h2 class="mission-title">MISSION</h2>
+    <div class="mission-content">
+      <!-- Mission statement (just the first two paragraphs) -->
+      <p>At devrandom, our mission is to build a new foundation for digital trust. We unite decentralized technologies like SSI with intelligent automation, crafting tools for a secure and verifiable digital world.</p>
+      <p>The era of opaque security tools is over. We believe the future demands a perfect harmony of transparency, verifiability, and autonomous intelligence.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mission-section {
+    padding: 4rem 0;
+    text-align: center;
+    overflow-x: hidden;
+  }
+  
+  .mission-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .mission-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+
+  .mission-content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mission-content p {
+    flex-basis: 48%;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: #e0e0e0;
+    text-align: left;
+  }
+
+  @media (max-width: 768px) {
+    .mission-content {
+      flex-direction: column;
+    }
+
+    .mission-title {
+      font-size: 1.5rem;
+    }
+
+    .mission-content p {
+      font-size: 1rem;
+    }
+  }
+</style> 

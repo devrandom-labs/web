@@ -3,7 +3,7 @@
   base = "devrandom" 
   
   # Standard command to install dependencies and build an Astro site
-  command = "npm install && npm run build"
+  command = "pnpm install && pnpm run build"
   
   # The publish directory is now relative to the base directory
   publish = "dist"

@@ -7,9 +7,10 @@ import TeamSection from "../components/landing/TeamSection.astro";
 import BackgroundCanvas from "../components/landing/BackgroundCanvas.astro";
 import ProblemSection from "../components/landing/ProblemSection.astro";
 import SolutionSection from "../components/landing/SolutionSection.astro";
-import VisionSection from "../components/landing/VisionSection.astro";
 import FinalCTA from "../components/landing/FinalCTA.astro";
 import LandingFooter from "../components/landing/LandingFooter.astro";
+import MissionSection from "../components/landing/MissionSection.astro";
+import TimelineSection from "../components/landing/TimelineSection.astro";
 
 const pageTitle = "devrandom • AI Security Solutions";
 const description = "Nova by devrandom: Autonomous AI agents with Self-Sovereign Identity (SSI) that hunt, verify, and neutralize cyber threats. Securing the AI era with trustworthy, verifiable intelligence.";
@@ -79,12 +80,14 @@ const ogimage = {
       </div>
     </section>
 
+    <!-- Mission Section -->
+    <section id="mission" class="page-section mission-section">
+      <MissionSection />
+    </section>
+
     <!-- Vision Section -->
     <section id="vision" class="page-section vision-section">
-      <div class="synthwave-bg-fixed"></div>
-      <div class="section-container">
-        <VisionSection />
-      </div>
+      <TimelineSection />
     </section>
 
     <!-- Team Section -->
@@ -115,6 +118,7 @@ const ogimage = {
   body {
     background-color: #ffffff;
     font-family: "JetBrains Mono", monospace;
+    overflow-x: hidden;
   }
 
   /* Hero Section with Synthwave Background */
@@ -221,8 +225,15 @@ const ogimage = {
     background: transparent;
   }
 
+  .mission-section {
+    background: #000;
+    color: #fff;
+    padding: 0;
+  }
+
   .vision-section {
     background: transparent;
+    padding: 0;
   }
 
   .contact-section {

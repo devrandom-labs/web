@@ -1,0 +1,23 @@
+---
+// Timeline section component
+import RoadmapTimeline from './RoadmapTimeline.tsx';
+---
+
+<section class="timeline-section">
+  <div class="timeline-container">
+    <div class="timeline-wrapper">
+      <RoadmapTimeline client:load />
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline-section {
+    padding: 4rem 1rem;
+  }
+
+  .timeline-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+</style> 
