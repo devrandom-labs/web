@@ -12,6 +12,7 @@ teamMembers.sort((a, b) => a.data.order - b.data.order);
   <h2 class="team-title">Meet the Team</h2>
   <div class="team-grid">
     {teamMembers.map(async (member) => {
+      console.log('Member Data:', member.data);
       const { Content } = await member.render();
       return (
         <div class="team-member">
@@ -29,6 +30,9 @@ teamMembers.sort((a, b) => a.data.order - b.data.order);
             )}
             {member.data.github && (
               <a href={member.data.github} target="_blank" rel="noopener" class="member-link">😺 GitHub</a>
+            )}
+            {member.data.twitter && (
+              <a href={member.data.twitter} target="_blank" rel="noopener" class="member-link">🐦 Twitter</a>
             )}
           </div>
         </div>
@@ -80,6 +84,8 @@ teamMembers.sort((a, b) => a.data.order - b.data.order);
 
   .team-avatar {
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
   }
 
   .avatar-image {
