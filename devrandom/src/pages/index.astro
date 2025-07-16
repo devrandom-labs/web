@@ -52,44 +52,51 @@ const ogimage = {
   </head>
   <body>
     <Navigation />
-    <div class="synthwave-bg-fixed"></div>
     
-    <!-- Hero Section (Above the Fold) -->
-    <main class="main-content">
+    <!-- Hero Section (Above the Fold) with Synthwave Background -->
+    <section id="hero" class="hero-section">
+      <div class="synthwave-bg-fixed"></div>
       <BackgroundCanvas />
-      
-      <section id="hero" class="hero-container">
+      <div class="hero-content">
         <Hero />
         <EmailSignup />
-      </section>
+      </div>
+    </section>
 
-      <!-- Problem Section -->
-      <section id="problem">
+    <!-- Problem Section -->
+    <section id="problem" class="page-section problem-section">
+      <div class="section-container">
         <ProblemSection />
-      </section>
+      </div>
+    </section>
 
-      <!-- Solution Section -->
-      <section id="solution">
+    <!-- Solution Section -->
+    <section id="solution" class="page-section solution-section">
+      <div class="section-container">
         <SolutionSection />
-      </section>
+      </div>
+    </section>
 
-      <!-- Vision Section -->
-      <section id="vision">
+    <!-- Vision Section -->
+    <section id="vision" class="page-section vision-section">
+      <div class="section-container">
         <VisionSection />
-      </section>
+      </div>
+    </section>
 
-      <!-- Final Call-to-Action -->
-      <section id="contact">
+    <!-- Final Call-to-Action -->
+    <section id="contact" class="page-section contact-section">
+      <div class="section-container">
         <FinalCTA />
-      </section>
+      </div>
+    </section>
 
-
-
-      <!-- Team Section -->
-      <section id="team">
+    <!-- Team Section -->
+    <section id="team" class="page-section team-section">
+      <div class="section-container">
         <TeamSection />
-      </section>
-    </main>
+      </div>
+    </section>
 
     <!-- Footer -->
     <LandingFooter />
@@ -104,11 +111,23 @@ const ogimage = {
   }
 
   body {
-    /* Removed overflow: hidden to allow scrolling */
+    background-color: #ffffff;
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  /* Hero Section with Synthwave Background */
+  .hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
 
   .synthwave-bg-fixed {
-    position: fixed;
+    position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
@@ -163,13 +182,9 @@ const ogimage = {
     animation: pixel-drift 12s ease-in-out infinite alternate;
   }
 
-  .main-content {
+  .hero-content {
     position: relative;
     z-index: 1;
-  }
-
-  .hero-container {
-    min-h: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -177,11 +192,59 @@ const ogimage = {
     text-align: center;
     padding: 4rem 1rem;
     gap: 3rem;
+    min-height: 100vh;
+  }
+
+  /* Page Section Structure */
+  .page-section {
+    position: relative;
+    width: 100%;
+    padding: 6rem 0;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Individual Section Styling */
+  .problem-section {
+    background: linear-gradient(135deg, 
+      rgba(255, 245, 245, 0.8) 0%, 
+      rgba(255, 255, 255, 1) 100%
+    );
+  }
+
+  .solution-section {
+    background: linear-gradient(135deg, 
+      rgba(240, 255, 240, 0.8) 0%, 
+      rgba(255, 255, 255, 1) 100%
+    );
+  }
+
+  .vision-section {
+    background: linear-gradient(135deg, 
+      rgba(245, 245, 255, 0.8) 0%, 
+      rgba(255, 255, 255, 1) 100%
+    );
   }
 
   .contact-section {
-    padding: 2rem 1rem;
+    background: linear-gradient(135deg, 
+      rgba(255, 250, 240, 0.8) 0%, 
+      rgba(255, 255, 255, 1) 100%
+    );
     text-align: center;
+  }
+
+  .team-section {
+    background: linear-gradient(135deg, 
+      rgba(250, 255, 250, 0.8) 0%, 
+      rgba(255, 255, 255, 1) 100%
+    );
   }
 
   /* Add scroll margin to account for fixed nav */
@@ -189,6 +252,7 @@ const ogimage = {
     scroll-margin-top: 80px;
   }
 
+  /* Synthwave Background Animations */
   @keyframes pixel-drift {
     0% {
       background-position:
@@ -216,7 +280,7 @@ const ogimage = {
     }
   }
 
-  /* floating blurred colour blobs */
+  /* floating blurred colour blobs for hero section only */
   .synthwave-bg-fixed::before,
   .synthwave-bg-fixed::after {
     content: "";
@@ -245,10 +309,29 @@ const ogimage = {
     100% {transform: translate3d(8%, -6%, 0)  scale(1.1);} 
   }
 
+  /* Responsive Design */
   @media (max-width: 768px) {
-    .hero-container {
+    .hero-content {
       padding: 2rem 1rem;
       gap: 2rem;
+    }
+
+    .page-section {
+      padding: 4rem 0;
+    }
+
+    .section-container {
+      padding: 0 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-section {
+      padding: 3rem 0;
+    }
+
+    .section-container {
+      padding: 0 0.75rem;
     }
   }
 </style>
